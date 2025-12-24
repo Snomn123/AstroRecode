@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "astrorecode",
+  "version": "${version}",
+  "name": "Astro (Recode)",
+  "description": "astro recode",
+  "authors": [
+    "Fogma"
+  ],
+  "contact": {},
+  "license": "CC0-1.0",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.recode.astro.AstroRecode"
+    ],
+    "client": [
+      "dev.recode.astro.AstroRecodeClient"
+    ]
+  },
+  "mixins": [
+    "modid.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.2",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

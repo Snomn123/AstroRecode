@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "package": "dev.recode.astro.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "imgui.GameRendererMixin",
+    "imgui.MinecraftMixin",
+    "accessor.InventoryAccessor",
+    "accessor.MinecraftAccessor",
+    "MixinLivingEntity",
+    "ClientConnectionMixin",
+    "ClientBrandRetrieverMixin",
+    "TextVisitFactoryMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}
