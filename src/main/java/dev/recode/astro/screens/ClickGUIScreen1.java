@@ -35,9 +35,9 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
     @Override
     public void render(ImGuiIO io) {
         ClickGuiModule gui = (ClickGuiModule) ModuleManager.getInstance().getModuleByName("ClickGUI");
-        int accent = gui != null ? ensureOpaque(gui.primaryColor.getValue()) : 0xFF6969FF;
-        int secondary = gui != null ? ensureOpaque(gui.secondaryColor.getValue()) : 0xFF5050;
-        int bg = gui != null ? ensureOpaque(gui.backgroundColor.getValue()) : 0xFF202020;
+        int accent = gui != null ? gui.primaryColor.getValue() : 0xFF6969FF;
+        int secondary = gui != null ? gui.secondaryColor.getValue() : 0xFF5050;
+        int bg = gui != null ? gui.backgroundColor.getValue() : 0xFF202020;
 
         applyTheme(accent, secondary, bg);
 
@@ -68,7 +68,7 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
         ImGui.endChild();
         ImGui.end();
 
-        ImGui.popStyleColor(9);
+        ImGui.popStyleColor(11);
         ImGui.popStyleVar(5);
     }
 
@@ -85,7 +85,7 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
         for (Category cat : Category.values()) {
             boolean sel = selectedCategory == cat && !configTabActive && !friendsTabActive;
             ImGui.pushStyleColor(ImGuiCol.Button, sel ? accent : 0x00000000);
-            ImGui.pushStyleColor(ImGuiCol.ButtonHovered, sel ? accent : alpha(secondary, 70));
+            ImGui.pushStyleColor(ImGuiCol.ButtonHovered, sel ? accent : 0x00000000);
             ImGui.pushStyleColor(ImGuiCol.Text, sel ? 0xFFFFFFFF : 0xFFBBBBBB);
 
             if (ImGui.button(cat.name(), catWidth, 22)) {
@@ -102,7 +102,7 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
         ImGui.setCursorPosX(iconsStartX);
 
         ImGui.pushStyleColor(ImGuiCol.Button, configTabActive ? accent : alpha(secondary, 160));
-        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, configTabActive ? accent : secondary);
+        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, configTabActive ? accent : alpha(secondary, 160));
         ImGui.image((long) configIcon, buttonSize, buttonSize);
         boolean configHovered = ImGui.isItemHovered();
         boolean configClicked = ImGui.isItemClicked();
@@ -116,7 +116,7 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
         ImGui.popStyleColor(2);
 
         ImGui.pushStyleColor(ImGuiCol.Button, friendsTabActive ? accent : alpha(secondary, 160));
-        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, friendsTabActive ? accent : secondary);
+        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, friendsTabActive ? accent : alpha(secondary, 160));
         ImGui.image((long) friendsIcon, buttonSize, buttonSize);
         boolean friendsHovered = ImGui.isItemHovered();
         boolean friendsClicked = ImGui.isItemClicked();
@@ -142,11 +142,10 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
         ImGui.pushStyleVar(ImGuiStyleVar.FramePadding, 10, 8);
 
         int btnBg = enabled ? accent : secondary;
-        int btnHover = enabled ? alpha(accent, 200) : alpha(secondary, 200);
 
         ImGui.pushStyleColor(ImGuiCol.Button, btnBg);
-        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, btnHover);
-        ImGui.pushStyleColor(ImGuiCol.ButtonActive, alpha(accent, 180));
+        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, btnBg);
+        ImGui.pushStyleColor(ImGuiCol.ButtonActive, btnBg);
         ImGui.pushStyleColor(ImGuiCol.Text, enabled ? 0xFFFFFFFF : 0xFFCCCCCC);
 
         float width = ImGui.getContentRegionAvailX();
@@ -167,9 +166,11 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
 
         if (expanded && hasSettings) {
             ImGui.indent(20);
-            ImGui.pushStyleColor(ImGuiCol.FrameBg, alpha(bg, 210));
-            ImGui.pushStyleColor(ImGuiCol.FrameBgHovered, alpha(secondary, 70));
-            ImGui.pushStyleColor(ImGuiCol.FrameBgActive, alpha(accent, 90));
+
+            int bgAlpha = (bg >> 24) & 0xFF;
+            ImGui.pushStyleColor(ImGuiCol.FrameBg, alpha(bg, Math.min(210, bgAlpha)));
+            ImGui.pushStyleColor(ImGuiCol.FrameBgHovered, alpha(bg, Math.min(210, bgAlpha)));
+            ImGui.pushStyleColor(ImGuiCol.FrameBgActive, alpha(bg, Math.min(210, bgAlpha)));
             ImGui.pushStyleColor(ImGuiCol.SliderGrab, accent);
             ImGui.pushStyleColor(ImGuiCol.SliderGrabActive, accent);
             ImGui.pushStyleColor(ImGuiCol.CheckMark, accent);
@@ -196,19 +197,19 @@ public final class ClickGUIScreen1 extends Screen implements RenderInterface {
         ImGui.pushStyleVar(ImGuiStyleVar.ScrollbarRounding, 8.0f);
         ImGui.pushStyleVar(ImGuiStyleVar.GrabRounding, 4.0f);
 
-        ImGui.pushStyleColor(ImGuiCol.WindowBg, alpha(bg, 235));
-        ImGui.pushStyleColor(ImGuiCol.ChildBg, alpha(bg, 220));
+        int bgAlpha = (bg >> 24) & 0xFF;
+
+        ImGui.pushStyleColor(ImGuiCol.WindowBg, alpha(bg, Math.min(235, bgAlpha)));
+        ImGui.pushStyleColor(ImGuiCol.ChildBg, alpha(bg, Math.min(220, bgAlpha)));
         ImGui.pushStyleColor(ImGuiCol.Text, 0xFFFFFFFF);
-        ImGui.pushStyleColor(ImGuiCol.FrameBg, alpha(bg, 190));
+        ImGui.pushStyleColor(ImGuiCol.FrameBg, alpha(bg, Math.min(190, bgAlpha)));
         ImGui.pushStyleColor(ImGuiCol.TitleBg, bg);
         ImGui.pushStyleColor(ImGuiCol.TitleBgActive, bg);
         ImGui.pushStyleColor(ImGuiCol.Button, accent);
         ImGui.pushStyleColor(ImGuiCol.ButtonHovered, secondary);
         ImGui.pushStyleColor(ImGuiCol.ButtonActive, accent);
-    }
-
-    private int ensureOpaque(int color) {
-        return (color & 0x00FFFFFF) | 0xFF000000;
+        ImGui.pushStyleColor(ImGuiCol.Border, secondary);
+        ImGui.pushStyleColor(ImGuiCol.PopupBg, accent);
     }
 
     private int alpha(int color, int a) {
