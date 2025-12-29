@@ -1,6 +1,6 @@
 package dev.recode.astro.module;
 
-import dev.recode.astro.module.settings.KeybindSetting; // ✅ ADD THIS
+import dev.recode.astro.module.settings.KeybindSetting; 
 import java.util.ArrayList;
 import java.util.List;
 
