@@ -8,8 +8,6 @@ import dev.recode.astro.api.event.events.PacketSendEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.ServerboundKeepAlivePacket;
-import net.minecraft.network.protocol.common.ServerboundPongPacket;
-import net.minecraft.network.protocol.common.ServerboundResourcePackPacket;
 import net.minecraft.network.protocol.game.*;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -52,11 +50,6 @@ public class BlinkModule extends Module {
         if (mc.player == null || mc.level == null) {
             return;
         }
-
-        // once  its reached packets it sends
-        if (outgoingQueue.size() >= 30) {
-            release();
-        }
     }
 
     @EventHandler
@@ -74,13 +67,7 @@ public class BlinkModule extends Module {
             return;
         }
 
-        // let critical packets through to avoid desync
-        if (event.packet instanceof ServerboundClientCommandPacket ||
-                event.packet instanceof ServerboundChatPacket ||
-                event.packet instanceof ServerboundResourcePackPacket ||
-                event.packet instanceof ServerboundPongPacket) {
-            return;
-        }
+
 
         // queue packet and stop
         outgoingQueue.add(event.packet);
