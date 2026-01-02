@@ -11,22 +11,30 @@ import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class ShieldStunModule extends Module {
-    private final RangeSliderSetting switchDelay = new RangeSliderSetting("Switch Delay", 10, 50, 0, 250);
-    private final RangeSliderSetting hitDelay = new RangeSliderSetting("Hit Delay", 10, 120, 0, 250);
-    private final RangeSliderSetting switchBackDelay = new RangeSliderSetting("Switch Back Delay", 50, 100, 0, 250);
+    private final RangeSliderSetting switchDelay;
+    private final RangeSliderSetting hitDelay;
+    private final RangeSliderSetting switchBackDelay;
 
     private int step = 0;
-    private long lastActionTime = 0;
+    private long time = 0;
     private int previousSlot = -1;
     private Player target = null;
-    private long currentDelay = 0;
 
     public ShieldStunModule() {
         super("ShieldStun", Category.COMBAT);
         setDescription("auto stuns/breaks enemy shields");
 
+        switchDelay = new RangeSliderSetting("switch delay", 10, 50, 0, 250);
+        switchDelay.setDescription("Delay for switching to an axe.");
+
+        hitDelay = new RangeSliderSetting("hit delay", 10, 120, 0, 250);
+        hitDelay.setDescription("Delay for hitting after switching to an axe.");
+
+        switchBackDelay = new RangeSliderSetting("switch back delay", 50, 70, 0, 100);
+        switchBackDelay.setDescription("delay for switching back to your previous held item");
 
         addSetting(switchDelay);
         addSetting(hitDelay);
@@ -35,88 +43,114 @@ public class ShieldStunModule extends Module {
         ClientTickEvents.START_CLIENT_TICK.register(this::onTick);
     }
 
-    private void onTick(Minecraft mc) {
-        if (mc.player == null || mc.level == null || mc.gameMode == null || mc.screen != null || !isEnabled()) return;
-
-
-        if (step == 0) {
-            scanForTarget(mc);
-        }
-
-
-        while (step > 0 && (System.currentTimeMillis() - lastActionTime) >= currentDelay) {
-            int lastStep = step;
-            processState(mc);
-            if (step == lastStep) break;
-        }
+    @Override
+    public void onEnable() {
+        reset();
     }
 
-    private void scanForTarget(Minecraft mc) {
-        if (mc.hitResult instanceof EntityHitResult hit && hit.getEntity() instanceof Player p) {
-            if (p.isBlocking() && p.isHolding(Items.SHIELD)) {
-                target = p;
-                previousSlot = InventoryUtil.getSelectedSlot(mc);
-
-                if (mc.player.getMainHandItem().getItem() instanceof AxeItem) {
-                    step = 2;
-                    currentDelay = (long) hitDelay.getRandomDouble();
-                } else {
-                    step = 1;
-                    currentDelay = (long) switchDelay.getRandomDouble();
-                }
-                lastActionTime = System.currentTimeMillis();
-            }
-        }
+    @Override
+    public void onDisable() {
+        reset();
     }
 
-    private void processState(Minecraft mc) {
+    private void onTick(Minecraft client) {
+        if (!canRun(client)) return;
+
         switch (step) {
-            case 1: // Switch to Axe
-                if (InventoryUtil.findAndSelectItem(mc, AxeItem.class)) {
-                    step = 2;
-                    currentDelay = (long) hitDelay.getRandomDouble();
-                    lastActionTime = System.currentTimeMillis();
-                } else {
-                    reset();
-                }
-                break;
-
-            case 2: // Attack
-                if (isTargetValid(mc)) {
-                    mc.gameMode.attack(mc.player, target);
-                    mc.player.swing(InteractionHand.MAIN_HAND);
-                    step = 3;
-                    currentDelay = (long) switchBackDelay.getRandomDouble();
-                    lastActionTime = System.currentTimeMillis();
-                } else {
-                    reset();
-                }
-                break;
-
-            case 3: // Switch Back
-                if (previousSlot != -1 && previousSlot != InventoryUtil.getSelectedSlot(mc)) {
-                    InventoryUtil.setSelectedSlot(mc, previousSlot);
-                }
-                reset();
-                break;
+            case 0: target1(client); break;
+            case 1: slot2(client); break;
+            case 2: attack3(client); break;
+            case 3: slotback4(client); break;
         }
     }
 
-    private boolean isTargetValid(Minecraft mc) {
-        if (target == null || target.isRemoved() || !target.isBlocking()) return false;
-        return mc.hitResult instanceof EntityHitResult hit && hit.getEntity() == target;
+    private boolean canRun(Minecraft client) {
+        return isEnabled() && client.player != null && client.level != null &&
+                client.gameMode != null && client.screen == null;
+    }
+
+    private void target1(Minecraft client) {
+        if (client.player.isUsingItem()) return;
+
+        HitResult hitResult = client.hitResult;
+        if (hitResult == null || hitResult.getType() != HitResult.Type.ENTITY) return;
+
+        EntityHitResult hit = (EntityHitResult) hitResult;
+        if (!(hit.getEntity() instanceof Player player)) return;
+
+        if (!player.isHolding(Items.SHIELD) || !player.isBlocking()) return;
+
+        target = player;
+        previousSlot = InventoryUtil.getSelectedSlot(client);
+        step = 1;
+        time = System.currentTimeMillis();
+    }
+
+    private void slot2(Minecraft client) {
+        if (!isTargetValid(client)) return;
+        if (!hasDelayPassed((long) switchDelay.getRandomDouble())) return;
+
+        if (InventoryUtil.findAndSelectItem(client, AxeItem.class)) {
+            step = 2;
+            time = System.currentTimeMillis();
+        } else {
+            reset();
+        }
+    }
+
+    private void attack3(Minecraft client) {
+        if (!isTargetValid(client)) return;
+        if (!hasDelayPassed((long) hitDelay.getRandomDouble())) return;
+
+        client.gameMode.attack(client.player, target);
+        client.player.swing(InteractionHand.MAIN_HAND);
+        step = 3;
+        time = System.currentTimeMillis();
+    }
+
+    private void slotback4(Minecraft client) {
+        if (!hasDelayPassed((long) switchBackDelay.getRandomDouble())) return;
+
+        if (previousSlot != -1 && previousSlot != InventoryUtil.getSelectedSlot(client)) {
+            InventoryUtil.setSelectedSlot(client, previousSlot);
+        }
+        reset();
+    }
+
+    private boolean isTargetValid(Minecraft client) {
+        if (target == null || target.isRemoved()) {
+            reset();
+            return false;
+        }
+
+        if (!target.isHolding(Items.SHIELD) || !target.isBlocking()) {
+            reset();
+            return false;
+        }
+
+        HitResult hitResult = client.hitResult;
+        if (hitResult == null || hitResult.getType() != HitResult.Type.ENTITY) {
+            reset();
+            return false;
+        }
+
+        EntityHitResult hit = (EntityHitResult) hitResult;
+        if (hit.getEntity() != target) {
+            reset();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean hasDelayPassed(long delay) {
+        return System.currentTimeMillis() - time >= delay;
     }
 
     private void reset() {
         step = 0;
-        target = null;
-        currentDelay = 0;
+        time = 0;
         previousSlot = -1;
+        target = null;
     }
-
-    @Override
-    public void onEnable() { reset(); }
-
-    @Override
-    public void onDisable() { reset(); }
 }
