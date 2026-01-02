@@ -36,7 +36,7 @@ public class AimAssistModule extends Module implements Globals {
         horizontalSpeed = new RangeSliderSetting("Horizontal speed", 3.0, 5.0, 0.5, 20.0);
         horizontalSpeed.setDescription("speed for aiming");
 
-        verticalSpeed = new RangeSliderSetting("Vertical speed sideways", 2.5, 4.5, 0.5, 20.0);
+        verticalSpeed = new RangeSliderSetting("Vertical speed", 2.5, 4.5, 0.5, 20.0);
         verticalSpeed.setDescription("speed for aiming upwards and downwards");
 
         maxDistance = new SliderSetting("Max distance", 4.5, 1.0, 8.0);
