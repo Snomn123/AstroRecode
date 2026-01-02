@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
@@ -35,7 +36,7 @@ public class TriggerBotModule extends Module {
     private final RangeSliderSetting delay;
     private final RangeSliderSetting delayAxe;
     private final BooleanSetting whileAscending;
-   // private final BooleanSetting stickyTarget;
+    // private final BooleanSetting stickyTarget;
     private final BooleanSetting weaponOnly;
     private final BooleanSetting workInScreens;
 
@@ -64,7 +65,7 @@ public class TriggerBotModule extends Module {
         addSetting(delay);
         addSetting(delayAxe);
         addSetting(whileAscending);
-    //    addSetting(stickyTarget);
+        //    addSetting(stickyTarget);
         addSetting(weaponOnly);
         addSetting(workInScreens);
 
@@ -118,10 +119,11 @@ public class TriggerBotModule extends Module {
 
         // Cancel attack if target is a friend
         String targetName = getEntityName(target);
-        if (FriendCFG.isFriend(targetName)) {
+        if (targetName != null && FriendCFG.isFriend(targetName)) {
             event.setCancelled(true);
         }
     }
+
 
     private static boolean shouldTriggerAttack() {
         Minecraft client = Minecraft.getInstance();
@@ -158,6 +160,11 @@ public class TriggerBotModule extends Module {
         if (target == client.player || !(target instanceof LivingEntity))
             return false;
 
+        // Friend check
+        String targetName = getEntityName(target);
+        if (targetName != null && FriendCFG.isFriend(targetName))
+            return false;
+
 //        if (instance != null && instance.stickyTarget.getValue()) {
 //            if (lastSeenTarget != null && target != lastSeenTarget)
 //                return false;
@@ -180,22 +187,9 @@ public class TriggerBotModule extends Module {
         return true;
     }
 
-    private String getEntityName(Entity entity) {
-        if (entity == null) return "";
-
-        try {
-            if (entity.getDisplayName() != null) {
-                return entity.getDisplayName().getString().trim().toLowerCase();
-            }
-        } catch (Exception ignored) {}
-
-        try {
-            if (entity.getName() != null) {
-                return entity.getName().getString().trim().toLowerCase();
-            }
-        } catch (Exception ignored) {}
-
-        return entity.toString().toLowerCase();
+    private static String getEntityName(Entity entity) {
+        if (entity == null) return null;
+        return entity.getName().getString();
     }
 
     private static boolean isHoldingWeapon() {

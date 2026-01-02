@@ -1,13 +1,12 @@
 package dev.recode.astro.api.registry;
 
 import dev.recode.astro.module.ModuleManager;
-import dev.recode.astro.module.modules.client.ClickGuiModule;
-import dev.recode.astro.module.modules.client.ClientSpoofModule;
-import dev.recode.astro.module.modules.client.SettingRenderTestModule;
-import dev.recode.astro.module.modules.client.StreamerModule;
-import dev.recode.astro.module.modules.combat.ShieldStunModule;
-import dev.recode.astro.module.modules.combat.TriggerBotModule;
+
+
+import dev.recode.astro.module.modules.client.*;
+import dev.recode.astro.module.modules.combat.*;
 import dev.recode.astro.module.modules.misc.*;
+
 
 
 public class ModuleRegistry {
@@ -33,9 +32,13 @@ public class ModuleRegistry {
 
 
 
+
         // combat
         manager.register(new TriggerBotModule());
         manager.register(new ShieldStunModule());
+        manager.register(new AimAssistModule());
+
+
 
     }
 
