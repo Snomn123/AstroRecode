@@ -28,7 +28,7 @@ public final class ConfigCFG {
     private static final ImString newConfigName = new ImString(69);
 
     static {
-        newConfigName.set("CoolConfig");
+        newConfigName.set("CoolConfigName");
     }
 
     public static void saveConfig(String name) {
