@@ -1,27 +1,26 @@
-package dev.recode.astro;
+package dev.recode.astro.api.utils;
 
 import dev.recode.astro.module.KeybindMode;
 import dev.recode.astro.module.Module;
 import dev.recode.astro.module.ModuleManager;
 import dev.recode.astro.module.Setting;
 import dev.recode.astro.module.settings.KeybindSetting;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 
-public class AstroRecodeClient implements ClientModInitializer {
-    private static AstroRecodeClient instance;
+public class KeybindHandler {
+    private static KeybindHandler instance;
     private final boolean[] keyState = new boolean[512];
     private KeybindSetting activeBinding;
 
-    @Override
-    public void onInitializeClient() {
-        instance = this;
-        ClientTickEvents.END_CLIENT_TICK.register(this::tick);
+    private KeybindHandler() {}
+
+    public static KeybindHandler getInstance() {
+        if (instance == null) instance = new KeybindHandler();
+        return instance;
     }
 
-    private void tick(Minecraft mc) {
+    public void tick(Minecraft mc) {
         if (mc == null || mc.getWindow() == null) return;
         long window = mc.getWindow().handle();
 
@@ -65,15 +64,6 @@ public class AstroRecodeClient implements ClientModInitializer {
         }
     }
 
-    public static AstroRecodeClient getInstance() {
-        return instance;
-    }
-
-    public void startBinding(KeybindSetting k) {
-        activeBinding = k;
-    }
-
-    public void stopBinding() {
-        activeBinding = null;
-    }
+    public void startBinding(KeybindSetting k) { activeBinding = k; }
+    public void stopBinding() { activeBinding = null; }
 }

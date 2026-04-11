@@ -7,7 +7,7 @@ import dev.recode.astro.module.Category;
 import dev.recode.astro.module.Module;
 import dev.recode.astro.module.settings.BooleanSetting;
 import dev.recode.astro.module.settings.RangeSliderSetting;
-import dev.recode.astro.api.config.FriendCFG;
+import dev.recode.astro.screens.menu.other.FriendCFG;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;

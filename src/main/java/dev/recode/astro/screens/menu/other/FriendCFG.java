@@ -1,4 +1,4 @@
-package dev.recode.astro.api.config;
+package dev.recode.astro.screens.menu.other;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

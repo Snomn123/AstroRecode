@@ -2,7 +2,7 @@ package dev.recode.astro.module.settings;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.recode.astro.AstroRecodeClient;
+import dev.recode.astro.api.utils.KeybindHandler;
 import dev.recode.astro.api.utils.ColorHelper;
 import dev.recode.astro.api.utils.KeybindHelper;
 import dev.recode.astro.module.KeybindMode;
@@ -110,12 +110,12 @@ public class KeybindSetting extends Setting {
 
     public void startBinding() {
         binding = true;
-        AstroRecodeClient.getInstance().startBinding(this);
+        KeybindHandler.getInstance().startBinding(this);
     }
 
     public void stopBinding() {
         binding = false;
-        AstroRecodeClient.getInstance().stopBinding();
+        KeybindHandler.getInstance().stopBinding();
     }
 
     public JsonElement serialize() {

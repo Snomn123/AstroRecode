@@ -3,7 +3,7 @@ package dev.recode.astro.module.modules.client;
 import dev.recode.astro.module.Category;
 import dev.recode.astro.module.Module;
 import dev.recode.astro.module.settings.ColorSetting;
-import dev.recode.astro.screens.ClickGUIScreen1;
+import dev.recode.astro.screens.menu.ClickGui;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
@@ -45,7 +45,7 @@ public class ClickGuiModule extends Module {
             return;
         }
 
-        ClickGUIScreen1 guiScreen = new ClickGUIScreen1();
+        ClickGui guiScreen = new ClickGui();
 
         ScreenEvents.AFTER_INIT.register((mc, screen, w, h) -> {
             if (screen == guiScreen) {

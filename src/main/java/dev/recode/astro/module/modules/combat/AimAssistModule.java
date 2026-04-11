@@ -1,6 +1,6 @@
 package dev.recode.astro.module.modules.combat;
 
-import dev.recode.astro.api.config.FriendCFG;
+import dev.recode.astro.screens.menu.other.FriendCFG;
 import dev.recode.astro.api.utils.Globals;
 import dev.recode.astro.module.Category;
 import dev.recode.astro.module.Module;
