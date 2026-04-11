@@ -1,13 +1,14 @@
 package dev.recode.astro.module;
 
 import dev.recode.astro.module.modules.client.ClickGuiModule;
-import dev.recode.astro.module.modules.client.ClientSpoofModule;
+import dev.recode.astro.module.modules.misc.ClientSpoofModule;
 import dev.recode.astro.module.modules.combat.AimAssistModule;
 import dev.recode.astro.module.modules.combat.ShieldStunModule;
 import dev.recode.astro.module.modules.combat.TriggerBotModule;
 import dev.recode.astro.module.modules.misc.BlinkModule;
 import dev.recode.astro.module.modules.misc.FastPlaceModule;
-import dev.recode.astro.module.modules.misc.NoJumpDelay;
+import dev.recode.astro.module.modules.movement.EasyPearlModule;
+import dev.recode.astro.module.modules.movement.NoJumpDelay;
 import dev.recode.astro.module.modules.misc.StreamerModule;
 
 import java.util.ArrayList;
@@ -25,17 +26,26 @@ public class ModuleManager {
     }
 
     public void registerAll() {
-        register(new ClickGuiModule());
-        register(new ClientSpoofModule());
 
-        register(new NoJumpDelay());
+        // client
+        register(new ClickGuiModule());
+
+
+        // misc
         register(new FastPlaceModule());
         register(new BlinkModule());
         register(new StreamerModule());
+        register(new ClientSpoofModule());
 
+
+        // combat
         register(new TriggerBotModule());
         register(new ShieldStunModule());
         register(new AimAssistModule());
+
+        // movement
+        register(new NoJumpDelay());
+        register(new EasyPearlModule());
     }
 
     public void register(Module module) {

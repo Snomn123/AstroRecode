@@ -1,7 +1,7 @@
 package dev.recode.astro.mixin;
 
 import dev.recode.astro.module.ModuleManager;
-import dev.recode.astro.module.modules.misc.NoJumpDelay;
+import dev.recode.astro.module.modules.movement.NoJumpDelay;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -1,7 +1,7 @@
 package dev.recode.astro.mixin;
 
 import dev.recode.astro.module.ModuleManager;
-import dev.recode.astro.module.modules.client.ClientSpoofModule;
+import dev.recode.astro.module.modules.misc.ClientSpoofModule;
 import net.minecraft.client.ClientBrandRetriever;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

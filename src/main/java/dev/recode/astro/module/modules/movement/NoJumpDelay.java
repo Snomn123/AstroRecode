@@ -1,4 +1,4 @@
-package dev.recode.astro.module.modules.misc;
+package dev.recode.astro.module.modules.movement;
 
 import dev.recode.astro.api.utils.OrbitManager;
 import dev.recode.astro.module.Category;
@@ -7,7 +7,7 @@ import dev.recode.astro.module.Module;
 public class NoJumpDelay extends Module {
 
     public NoJumpDelay() {
-        super("NoJumpDelay", Category.MISC);
+        super("NoJumpDelay", Category.MOVEMENT);
         setDescription("Removes the delay between jumps");
     }
 

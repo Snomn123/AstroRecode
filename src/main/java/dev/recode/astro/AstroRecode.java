@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AstroRecode implements ModInitializer, ClientModInitializer {
-    public static final Logger LOGGER = LoggerFactory.getLogger("astrorecode");
+    public static final Logger LOGGER = LoggerFactory.getLogger(AstroRecode.NAME);
     public static final String BRANCH = "Beta";
     public static final String VERSION = "0.1";
     public static final String NAME = "Astro(Recode)";
@@ -21,7 +21,7 @@ public class AstroRecode implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitialize() {
-        LOGGER.info("Astro client (recode) {} {} loaded :D", BRANCH, VERSION);
+        LOGGER.info(AstroRecode.NAME + " {} {} loaded :D", BRANCH, VERSION);
         OrbitManager.initialize();
         ModuleManager.getInstance().registerAll();
         ConfigCFG.loadLatestConfig();

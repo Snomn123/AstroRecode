@@ -1,4 +1,4 @@
-package dev.recode.astro.module.modules.client;
+package dev.recode.astro.module.modules.misc;
 
 import dev.recode.astro.module.Category;
 import dev.recode.astro.module.Module;
@@ -11,7 +11,7 @@ public class ClientSpoofModule extends Module {
     private final ModeSetting clientMode;
 
     public ClientSpoofModule() {
-        super("ClientSpoof", Category.CLIENT);
+        super("ClientSpoof", Category.MISC);
         setDescription("spoofs client brand");
 
         clientMode = new ModeSetting("mode", Arrays.asList("Vanilla", "Forge", "Lunar", "Badlion"), 0);
