@@ -7,12 +7,9 @@ import com.google.gson.JsonObject;
 import dev.recode.astro.module.Module;
 import dev.recode.astro.module.ModuleManager;
 import dev.recode.astro.module.Setting;
-import dev.recode.astro.module.modules.client.ClickGuiModule;
-import dev.recode.astro.module.settings.KeybindSetting;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.type.ImString;
-import org.lwjgl.glfw.GLFW;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -22,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 public final class ConfigCFG {
+
     private static final Path CONFIG_DIR = Path.of("astro/cfg/config");
     private static final Path LATEST_FILE = CONFIG_DIR.resolve("latest.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -30,6 +28,8 @@ public final class ConfigCFG {
     static {
         newConfigName.set("CoolConfigName");
     }
+
+    private ConfigCFG() {}
 
     public static void saveConfig(String name) {
         try {
@@ -75,27 +75,10 @@ public final class ConfigCFG {
                         }
                     }
                 }
-
-                // set keybind to right shift if it does not find one
-                if (mod instanceof ClickGuiModule) {
-                    KeybindSetting keybindSetting = findKeybindSetting(mod);
-                    if (keybindSetting != null && keybindSetting.getKey() == 0) {
-                        keybindSetting.setKey(GLFW.GLFW_KEY_RIGHT_SHIFT);
-                    }
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private static KeybindSetting findKeybindSetting(Module mod) {
-        for (Setting setting : mod.getSettings()) {
-            if (setting instanceof KeybindSetting) {
-                return (KeybindSetting) setting;
-            }
-        }
-        return null;
     }
 
     public static void saveLatestConfig() {
@@ -111,8 +94,7 @@ public final class ConfigCFG {
     public static void deleteConfig(String name) {
         try {
             if (name == null || name.trim().isEmpty()) return;
-            Path file = CONFIG_DIR.resolve(name.trim() + ".json");
-            Files.deleteIfExists(file);
+            Files.deleteIfExists(CONFIG_DIR.resolve(name.trim() + ".json"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,10 +117,10 @@ public final class ConfigCFG {
     public static void renderConfigMenu(int accentColor, int textColor) {
         ImGui.textColored(accentColor, "Configs");
         ImGui.separator();
-        float topInputWidth = 220;
+
         float topButtonWidth = 80;
         float topButtonHeight = 28;
-        ImGui.pushItemWidth(topInputWidth);
+        ImGui.pushItemWidth(220);
         ImGui.inputText("##ConfigNameInput", newConfigName);
         ImGui.popItemWidth();
         ImGui.sameLine();
@@ -152,12 +134,14 @@ public final class ConfigCFG {
         }
         ImGui.popStyleColor();
         ImGui.separator();
+
         List<String> configs = listConfigs();
         Collections.sort(configs, Collections.reverseOrder());
         if (configs.isEmpty()) {
             ImGui.textColored(0xFF888888, "no configs found :/");
             return;
         }
+
         float buttonWidth = 50;
         float buttonHeight = 18;
         float spacing = 4;

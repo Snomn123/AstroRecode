@@ -8,20 +8,20 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
 public class ClickGuiModule extends Module {
+
+    private static final int MODULE_COLOR = 0xFF6969FF;
 
     public final ColorSetting primaryColor;
     public final ColorSetting secondaryColor;
     public final ColorSetting backgroundColor;
 
-    private static final int MODULE_COLOR = 0xFF6969FF;
-
     public ClickGuiModule() {
-        super("ClickGUI", Category.CLIENT);
+        super("ClickGUI", Category.CLIENT, GLFW.GLFW_KEY_RIGHT_SHIFT);
         setDescription("shows this menu");
-
 
         primaryColor = new ColorSetting("Primary", 0xFF6969FF, MODULE_COLOR);
         primaryColor.setDescription("Primary/main color");
@@ -39,7 +39,6 @@ public class ClickGuiModule extends Module {
 
     @Override
     public void onEnable() {
-
         if (Minecraft.getInstance().player == null) {
             setEnabled(false);
             return;
@@ -53,8 +52,6 @@ public class ClickGuiModule extends Module {
             }
         });
 
-        Minecraft.getInstance().execute(() ->
-                Minecraft.getInstance().setScreen(guiScreen)
-        );
+        Minecraft.getInstance().execute(() -> Minecraft.getInstance().setScreen(guiScreen));
     }
 }
