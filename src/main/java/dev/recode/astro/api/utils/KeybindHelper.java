@@ -1,4 +1,4 @@
-package dev.recode.astro.module.settings;
+package dev.recode.astro.api.utils;
 
 import org.lwjgl.glfw.GLFW;
 

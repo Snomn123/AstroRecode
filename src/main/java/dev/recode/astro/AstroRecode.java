@@ -3,6 +3,7 @@ package dev.recode.astro;
 import dev.recode.astro.api.config.ConfigCFG;
 import dev.recode.astro.api.event.events.ClientTickEvent;
 import dev.recode.astro.api.registry.ModuleRegistry;
+import dev.recode.astro.api.utils.OrbitManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;

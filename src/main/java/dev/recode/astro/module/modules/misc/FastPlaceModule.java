@@ -1,6 +1,6 @@
 package dev.recode.astro.module.modules.misc;
 
-import dev.recode.astro.OrbitManager;
+import dev.recode.astro.api.utils.OrbitManager;
 import dev.recode.astro.api.event.events.ClientTickEvent;
 import dev.recode.astro.api.event.orbit.EventHandler;
 import dev.recode.astro.mixin.accessor.MinecraftAccessor;

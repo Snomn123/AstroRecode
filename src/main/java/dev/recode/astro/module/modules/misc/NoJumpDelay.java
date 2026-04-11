@@ -1,6 +1,6 @@
 package dev.recode.astro.module.modules.misc;
 
-import dev.recode.astro.OrbitManager;
+import dev.recode.astro.api.utils.OrbitManager;
 import dev.recode.astro.module.Category;
 import dev.recode.astro.module.Module;
 

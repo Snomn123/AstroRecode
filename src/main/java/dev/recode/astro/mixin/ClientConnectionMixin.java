@@ -1,6 +1,6 @@
 package dev.recode.astro.mixin;
 
-import dev.recode.astro.OrbitManager;
+import dev.recode.astro.api.utils.OrbitManager;
 import dev.recode.astro.api.event.events.PacketSendEvent;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;

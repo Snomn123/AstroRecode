@@ -1,6 +1,6 @@
 package dev.recode.astro.mixin;
 
-import dev.recode.astro.module.modules.client.StreamerModule;
+import dev.recode.astro.module.modules.misc.StreamerModule;
 import net.minecraft.util.StringDecomposer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.recode.astro.AstroRecodeClient;
 import dev.recode.astro.api.utils.ColorHelper;
+import dev.recode.astro.api.utils.KeybindHelper;
 import dev.recode.astro.module.KeybindMode;
 import dev.recode.astro.module.ModuleManager;
 import dev.recode.astro.module.Setting;
@@ -50,7 +51,7 @@ public class KeybindSetting extends Setting {
 
         ImGui.text(binding
                 ? "waiting..."
-                : "bind: " + dev.recode.astro.module.settings.KeybindHelper.getKeyName(key.get())
+                : "bind: " + KeybindHelper.getKeyName(key.get())
         );
         ImGui.sameLine();
 

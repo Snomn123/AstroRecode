@@ -1,4 +1,4 @@
-package dev.recode.astro;
+package dev.recode.astro.api.utils;
 
 import dev.recode.astro.api.event.orbit.EventBus;
 import dev.recode.astro.api.event.orbit.IEventBus;

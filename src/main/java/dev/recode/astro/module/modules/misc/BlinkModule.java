@@ -1,6 +1,6 @@
 package dev.recode.astro.module.modules.misc;
 
-import dev.recode.astro.OrbitManager;
+import dev.recode.astro.api.utils.OrbitManager;
 import dev.recode.astro.api.event.orbit.EventHandler;
 import dev.recode.astro.module.Category;
 import dev.recode.astro.module.Module;
@@ -8,7 +8,6 @@ import dev.recode.astro.api.event.events.PacketSendEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.ServerboundKeepAlivePacket;
-import net.minecraft.network.protocol.game.*;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 

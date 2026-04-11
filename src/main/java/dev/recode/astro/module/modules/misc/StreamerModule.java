@@ -1,4 +1,4 @@
-package dev.recode.astro.module.modules.client;
+package dev.recode.astro.module.modules.misc;
 
 import dev.recode.astro.module.Category;
 import dev.recode.astro.module.Module;
@@ -13,7 +13,7 @@ public class StreamerModule extends Module {
 
 
     public StreamerModule() {
-        super("Streamer", Category.CLIENT);
+        super("Streamer", Category.MISC);
         setDescription("hides/spoofs your name");
 
         instance = this;

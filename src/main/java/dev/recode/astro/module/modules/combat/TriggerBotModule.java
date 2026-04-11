@@ -1,6 +1,6 @@
 package dev.recode.astro.module.modules.combat;
 
-import dev.recode.astro.OrbitManager;
+import dev.recode.astro.api.utils.OrbitManager;
 import dev.recode.astro.api.event.events.AttackEntityEvent;
 import dev.recode.astro.api.event.orbit.EventHandler;
 import dev.recode.astro.module.Category;
@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.InteractionHand;
