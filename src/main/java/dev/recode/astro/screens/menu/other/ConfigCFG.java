@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.recode.astro.AstroRecode;
 import dev.recode.astro.module.Module;
 import dev.recode.astro.module.ModuleManager;
 import dev.recode.astro.module.Setting;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public final class ConfigCFG {
 
-    private static final Path CONFIG_DIR = Path.of("astro/cfg/config");
+    private static final Path CONFIG_DIR = Path.of(AstroRecode.NAME+"/cfg/config");
     private static final Path LATEST_FILE = CONFIG_DIR.resolve("latest.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final ImString newConfigName = new ImString(69);

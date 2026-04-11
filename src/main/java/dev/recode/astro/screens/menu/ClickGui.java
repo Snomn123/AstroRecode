@@ -1,5 +1,6 @@
 package dev.recode.astro.screens.menu;
 
+import dev.recode.astro.AstroRecode;
 import dev.recode.astro.api.imgui.ImGuiImpl;
 import dev.recode.astro.api.imgui.RenderInterface;
 import dev.recode.astro.api.utils.ColorHelper;
@@ -43,7 +44,7 @@ public final class ClickGui extends Screen implements RenderInterface {
         ImGui.setNextWindowSize(WINDOW_W, WINDOW_H, 0);
         ImGui.setNextWindowPos(cx, cy, 4);
 
-        ImGui.begin("Astro (Recode)", ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse);
+        ImGui.begin(AstroRecode.NAME, ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoCollapse);
 
         pushFont();
         TopBarRenderer.render(state, accent, secondary, bg);

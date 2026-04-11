@@ -18,6 +18,7 @@ public class AstroRecode implements ModInitializer, ClientModInitializer {
     public static final String VERSION = "0.1";
     public static final String NAME = "Astro(Recode)";
 
+
     @Override
     public void onInitialize() {
         LOGGER.info("Astro client (recode) {} {} loaded :D", BRANCH, VERSION);

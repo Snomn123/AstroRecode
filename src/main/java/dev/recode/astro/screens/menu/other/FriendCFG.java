@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.recode.astro.AstroRecode;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.type.ImString;
@@ -15,7 +16,7 @@ import java.util.*;
 
 public final class FriendCFG {
 
-    private static final Path CONFIG_DIR = Path.of("astro/cfg/friends");
+    private static final Path CONFIG_DIR = Path.of(AstroRecode.NAME +"/cfg/friends");
     private static final Path FRIENDS_FILE = CONFIG_DIR.resolve("friends.json");
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();

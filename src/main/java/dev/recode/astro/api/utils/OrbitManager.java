@@ -18,7 +18,6 @@ public class OrbitManager {
 
     public static void initialize() {
         if (initialized) {
-            LOGGER.warn("orbit initialized! (astro recode)");
             return;
         }
 
