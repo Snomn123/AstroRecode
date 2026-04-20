@@ -1,7 +1,9 @@
 package dev.recode.astro.mixin.imgui;
 
+import dev.recode.astro.api.event.events.ClientRenderEvent;
 import dev.recode.astro.api.imgui.ImGuiImpl;
 import dev.recode.astro.api.imgui.RenderInterface;
+import dev.recode.astro.api.utils.OrbitManager;
 import imgui.ImGui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
@@ -27,6 +29,12 @@ public class GameRendererMixin {
             renderInterface.render(ImGui.getIO());
             ImGuiImpl.endImGuiRendering();
         }
+    }
+
+    @Inject(method = "render", at = @At("HEAD"))
+    private void postClientRenderEvent(DeltaTracker deltaTracker, boolean tick, CallbackInfo ci) {
+        ClientRenderEvent event = new ClientRenderEvent(deltaTracker, tick);
+        OrbitManager.getEventBus().post(event);
     }
 
 }

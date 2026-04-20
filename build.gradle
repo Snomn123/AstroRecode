@@ -16,6 +16,7 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
 }
 
 //loom {
@@ -39,8 +40,17 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
+	// debug mod, not required (if removed remember to remove the repository as well)
+	// see https://github.com/DJtheRedstoner/DevAuth for more info.
+	include(modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.2.2"))
+
 	include implementation("io.github.spair:imgui-java-binding:${project.imgui_version}")
-	include implementation("io.github.spair:imgui-java-lwjgl3:${project.imgui_version}")
+	include implementation("io.github.spair:imgui-java-lwjgl3:${project.imgui_version}") {
+		// fix for NoSuchMethodError on STBImageResize.nstbir_resize_uint8(...) stutters/crashes.
+		// happens because of a lwjgl version conflict between imgui-java and fabric.
+		exclude group: "org.lwjgl"
+		exclude group: "org.lwjgl.lwjgl"
+	}
 
 	include implementation("io.github.spair:imgui-java-natives-windows:${project.imgui_version}")
 	include implementation("io.github.spair:imgui-java-natives-linux:${project.imgui_version}")
